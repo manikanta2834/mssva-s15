@@ -2,7 +2,7 @@ id: ch3-idor-api
 
 info:
   name: IDOR - Insecure Direct Object Reference in Orders API
-  author: security-researcher
+  author: manikanta2834
   severity: high
   description: |
     The API endpoint allows access to any order by ID with just an Authorization header present.
