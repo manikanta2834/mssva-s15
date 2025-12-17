@@ -2,7 +2,7 @@ id: ch5-session-misconfiguration
 
 info:
   name: Session Misconfiguration Detection
-  author: security-researcher
+  author: manikanta2834
   severity: medium
   description: |
     The application has session management misconfiguration issues.
