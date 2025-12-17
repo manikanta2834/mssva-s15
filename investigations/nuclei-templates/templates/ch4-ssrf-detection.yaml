@@ -1,0 +1,68 @@
+id: ch4-ssrf-detection
+
+info:
+  name: SSRF - Server Side Request Forgery Detection
+  author: manikanta2834
+  severity: critical
+  description: |
+    The application is vulnerable to Server-Side Request Forgery (SSRF).
+    An attacker can make the server send requests to internal resources.
+  tags: ssrf,oast,rce
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/fetch?url=http://127.0.0.1"
+      - "{{BaseURL}}/proxy?url=http://localhost"
+      - "{{BaseURL}}/load?url=http://169.254.169.254/latest/meta-data/"
+      - "{{BaseURL}}/request?url=http://internal.local"
+      - "{{BaseURL}}/?url=http://127.0.0.1:8080"
+
+    stop-at-first-match: true
+
+    matchers-condition: or
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "ami-id"
+          - "instance-id"
+          - "local-hostname"
+          - "127.0.0.1"
+          - "localhost"
+
+      - type: status
+        status:
+          - 200
+          - 301
+          - 302
+
+  - raw:
+      - |
+        POST /fetch HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        url=http://127.0.0.1
+
+      - |
+        POST /proxy HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"url": "http://localhost"}
+
+    matchers-condition: or
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "<!DOCTYPE"
+          - "<html"
+          - "HTTP"
+          - "internal"
+
+      - type: regex
+        part: body
+        regex:
+          - "(?i)(localhost|127\\.0\\.0\\.1|internal)"
