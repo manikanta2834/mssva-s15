@@ -2,7 +2,7 @@ id: ch4-ssrf-detection
 
 info:
   name: SSRF - Server Side Request Forgery Detection
-  author: security-researcher
+  author: manikanta2834
   severity: critical
   description: |
     The application is vulnerable to Server-Side Request Forgery (SSRF).
