@@ -2,7 +2,7 @@ id: ch7-access-control
 
 info:
   name: Access Control Bypass - Trust Header Injection
-  author: security-researcher
+  author: manikanta2834
   severity: critical
   description: |
     The application trusts client-supplied headers for access control decisions.
