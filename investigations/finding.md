@@ -53,6 +53,11 @@
 **Finding Summary:** Server-Side Request Forgery (SSRF) vulnerability detected through black-box testing. The application makes requests to user-supplied URLs, potentially allowing access to internal resources.  
 **Detection Method:** Custom Nuclei template testing common SSRF parameters with internal URL payloads  
 **Template File:** [ch4-ssrf-detection.yaml](templates/ch4-ssrf-detection.yaml)
+### Vulnerability Details
+- **Vulnerability Type:** Server-Side Request Forgery (SSRF)
+- **Testing Model:** Black-box
+- **Severity:** Critical
+- **Potential Impact:** Access to internal services, cloud metadata, internal network scanning
 
 ---
 
