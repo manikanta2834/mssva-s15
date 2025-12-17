@@ -2,7 +2,7 @@ id: ch6-state-desync
 
 info:
   name: State Desync - Workflow Stage Bypass
-  author: security-researcher
+  author: manikanta2834
   severity: high
   description: |
     The application has a state desynchronization vulnerability where 
