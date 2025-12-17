@@ -46,4 +46,14 @@
 
 ---
 
+## Challenge 4 (CH4) - SSRF Detection
+
+**Challenge ID:** CH4  
+**Target URL:** http://172.16.13.89:9004  
+**Finding Summary:** Server-Side Request Forgery (SSRF) vulnerability detected through black-box testing. The application makes requests to user-supplied URLs, potentially allowing access to internal resources.  
+**Detection Method:** Custom Nuclei template testing common SSRF parameters with internal URL payloads  
+**Template File:** [ch4-ssrf-detection.yaml](templates/ch4-ssrf-detection.yaml)
+
+---
+
 
