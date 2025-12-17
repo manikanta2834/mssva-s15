@@ -2,7 +2,7 @@ id: ch1-auth-bypass
 
 info:
   name: Authentication Bypass - Missing Password Validation
-  author: security-researcher
+  author: manikanta2834
   severity: critical
   description: |
     The login endpoint accepts requests with only a username field (no password),
